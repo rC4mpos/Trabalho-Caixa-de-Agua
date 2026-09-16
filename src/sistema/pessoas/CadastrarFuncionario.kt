@@ -4,6 +4,8 @@ import enumeradores.Setor
 import pessoas.Funcionario
 import repositorio.JPA
 import validacoes.cpfValido
+import validacoes.lerBigDecimalValido
+import validacoes.lerIntValido
 
 fun cadastrarFuncionario() {
 
@@ -20,17 +22,15 @@ fun cadastrarFuncionario() {
         }
     } while (!cpfValido(cpf))
 
-    println("Digite a idade: ")
-    val idade = readln().toIntOrNull() ?: 0   // "?: 0" = se vier null (digitou letra), usa 0 no lugar
+    val idade = lerIntValido("Digite a idade: ", 0, 120)
 
-    println("Digite o salário: ")
-    val salario = readln().toBigDecimal()
+    val salario = lerBigDecimalValido("Digite o salário: ")
 
     println("Escolha o setor: ")
     Setor.entries.forEach { setor ->
         println("${setor.ordinal} - ${setor.name}")
     }
-    val numeroSetor = readln().toIntOrNull() ?: 0
+    val numeroSetor = lerIntValido("Escolha o número do setor: ", 0, Setor.entries.size - 1)
     val setor = Setor.entries[numeroSetor]
 
     val funcionario = Funcionario(

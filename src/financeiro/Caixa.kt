@@ -28,3 +28,9 @@ class Caixa(
         return true
     }
 }
+
+// Caixa único da empresa, compartilhado por todo o sistema.
+// Assim toda movimentação registrada mexe sempre no mesmo saldo.
+object CaixaEmpresa {
+    val caixa = Caixa()
+}

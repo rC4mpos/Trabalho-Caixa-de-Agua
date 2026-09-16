@@ -3,6 +3,7 @@ package sistema.pessoas
 import pessoas.Fornecedor
 import repositorio.JPA
 import validacoes.cpfValido
+import validacoes.lerIntValido
 
 fun cadastrarFornecedor() {
 
@@ -18,8 +19,7 @@ fun cadastrarFornecedor() {
         }
     } while (!cpfValido(cpf))
 
-    println("Digite a idade: ")
-    val idade = readln().toIntOrNull() ?: 0
+    val idade = lerIntValido("Digite a idade: ", 0, 120)
 
     println("O que esse fornecedor fornece? ")
     val materialFornecido = readln()

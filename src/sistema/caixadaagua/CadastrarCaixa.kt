@@ -3,6 +3,9 @@ import enumeradores.Cor
 import enumeradores.Material
 import produto.CaixaDaAgua
 import repositorio.JPA
+import validacoes.lerBigDecimalValido
+import validacoes.lerDoubleValido
+import validacoes.lerIntValido
 
 
 
@@ -14,12 +17,9 @@ fun cadastrarNovaCaixa() {
     println("Digite o modelo: ")
     val modelo = readln()
 
-    println("Digite a largura: ")
-    val largura = readln().toDouble()
-    println("Digite a altura: ")
-    val altura = readln().toDouble()
-    println("Digite a profundidade: ")
-    val profundidade = readln().toDouble()
+    val largura = lerDoubleValido("Digite a largura: ")
+    val altura = lerDoubleValido("Digite a altura: ")
+    val profundidade = lerDoubleValido("Digite a profundidade: ")
     //a dimensao é uma lista dos 3 valores acima
     val dimensao = mutableListOf<Double>(largura, altura, profundidade)
 
@@ -27,20 +27,17 @@ fun cadastrarNovaCaixa() {
     Cor.entries.forEach { cor ->
         println("${cor.ordinal} - ${cor.name}")
     }
-    println("numero da cor: ")
-    val cor = readln().toInt()
+    val cor = lerIntValido("numero da cor: ", 0, Cor.entries.size - 1)
 
     Material.entries.forEach { material ->
         println("${material.ordinal} - ${material.name}")
     }
-    println("Digite o numero do material: ")
-    val material = readln().toInt()
+    val material = lerIntValido("Digite o numero do material: ", 0, Material.entries.size - 1)
 
     println("Escolha o formato: ")
     val formato = readln()
 
-    println("Digite o preco: ")
-    val preco = readln().toBigDecimal()
+    val preco = lerBigDecimalValido("Digite o preco: ")
 
     val conexao = JPA() //Criar a variavel de conexao com o banco
     conexao.salvar(

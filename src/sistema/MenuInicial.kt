@@ -1,5 +1,6 @@
 package sistema
 
+import financeiro.CaixaEmpresa
 import sistema.caixadaagua.cadastrarNovaCaixa
 import sistema.caixadaagua.listarCaixa
 import sistema.caixadaagua.editarCaixa
@@ -21,6 +22,7 @@ fun menuInicial() {
         println("6 - Cadastrar Funcionário")
         println("7 - Cadastrar Cliente")
         println("8 - Cadastrar Fornecedor")
+        println("9 - Ver Saldo do Caixa")
 
         print("Escolha uma opção: ")
         // toIntOrNull() nunca quebra o programa: se o usuário digitar
@@ -36,11 +38,12 @@ fun menuInicial() {
             6 -> cadastrarFuncionario()
             7 -> cadastrarCliente()
             8 -> cadastrarFornecedor()
+            9 -> println("Saldo atual do caixa: R$ ${CaixaEmpresa.caixa.saldo}")
             0 -> {
                 println("Tchau Paraguaio")
                 break
             }
-            else -> println("Opção inválida, digite um número de 0 a 8.")
+            else -> println("Opção inválida, digite um número de 0 a 9.")
         }
     } while (true) //FIM DO DO-WHILE
 

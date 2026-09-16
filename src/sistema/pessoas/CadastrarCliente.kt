@@ -3,6 +3,8 @@ package sistema.pessoas
 import pessoas.Cliente
 import repositorio.JPA
 import validacoes.cpfValido
+import validacoes.lerBigDecimalValido
+import validacoes.lerIntValido
 import java.math.BigDecimal
 
 fun cadastrarCliente() {
@@ -19,8 +21,7 @@ fun cadastrarCliente() {
         }
     } while (!cpfValido(cpf))
 
-    println("Digite a idade: ")
-    val idade = readln().toIntOrNull() ?: 0
+    val idade = lerIntValido("Digite a idade: ", 0, 120)
 
     println("O cliente tem dívidas em aberto? (s/n): ")
     // .equals(..., ignoreCase = true) compara o texto sem se importar com maiuscula/minuscula
@@ -29,12 +30,10 @@ fun cadastrarCliente() {
     val parcelas = mutableListOf<BigDecimal>()   // lista vazia, vai ser preenchida so se precisar
 
     if (dividasAbertas) {   // so pergunta as parcelas SE o cliente tiver dividas
-        println("Quantas parcelas em aberto? ")
-        val quantidade = readln().toIntOrNull() ?: 0
+        val quantidade = lerIntValido("Quantas parcelas em aberto? ", 1, 100)
 
         for (i in 1..quantidade) {   // repete "quantidade" vezes, pedindo cada parcela
-            println("Valor da parcela $i: ")
-            parcelas.add(readln().toBigDecimal())
+            parcelas.add(lerBigDecimalValido("Valor da parcela $i: "))
         }
     }
 

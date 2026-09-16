@@ -1,7 +1,10 @@
 package sistema.financeiro
 
+import financeiro.CaixaEmpresa
 import pessoas.Pessoa
 import repositorio.JPA
+import validacoes.lerBigDecimalValido
+import validacoes.lerIntValido
 
 fun registrarMovimentacao() {
 
@@ -17,8 +20,7 @@ fun registrarMovimentacao() {
     val nomeResponsavel = readln()
     val responsavel = Pessoa(nome = nomeResponsavel, cpf = "", idade = 0)
 
-    println("Valor: ")
-    val valor = readln().toBigDecimal()   // transforma o texto digitado num numero decimal
+    val valor = lerBigDecimalValido("Valor: ")
 
     println("Motivo: ")
     val motivo = readln()
@@ -34,4 +36,18 @@ fun registrarMovimentacao() {
 
     val jpa = JPA()                          // abre a "ponte" com o banco
     jpa.salvarMovimentacao(movimentacao)     // salva a movimentacao criada
+
+    // Além de guardar o histórico, essa movimentação também precisa
+    // refletir no caixa da empresa (é o que "controla o fluxo de caixa").
+    val direcao = lerIntValido(
+        "Esse valor ENTROU ou SAIU do caixa da empresa? (1-Entrou / 2-Saiu): ", 1, 2
+    )
+
+    if (direcao == 1) {
+        CaixaEmpresa.caixa.depositar(valor)
+    } else {
+        CaixaEmpresa.caixa.sacar(valor)
+    }
+
+    println("Saldo atual do caixa: R$ ${CaixaEmpresa.caixa.saldo}")
 }
